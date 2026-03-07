@@ -1,5 +1,5 @@
  import { useState, useEffect, useRef } from "react";
-import "./Corpo.css";
+
 
 // ─── optional: swap these back to your real assets ───
 // import setting from "./assets/menus.png";

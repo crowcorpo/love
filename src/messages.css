@@ -1,0 +1,310 @@
+/* ═══════════════════════════════════════
+   messages.css  —  Orders inbox
+   ═══════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+#msg-overlay {
+    position        : fixed;
+    inset           : 0;
+    z-index         : 1100;
+    background      : rgba(0, 0, 0, 0.75);
+    display         : flex;
+    align-items     : flex-start;
+    justify-content : center;
+    padding         : 80px 16px 16px;
+    overflow-y      : auto;
+}
+
+#msg-page {
+    width          : 100%;
+    max-width      : 720px;
+    background     : #111111;
+    border         : 1px solid rgba(255, 255, 255, 0.08);
+    border-radius  : 16px;
+    overflow       : hidden;
+    display        : flex;
+    flex-direction : column;
+    min-height     : 300px;
+}
+
+/* ── header ── */
+#msg-header {
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+    padding         : 20px 24px;
+    border-bottom   : 1px solid rgba(255, 255, 255, 0.07);
+    position        : sticky;
+    top             : 0;
+    background      : #111111;
+    z-index         : 2;
+    flex-wrap       : wrap;
+    gap             : 10px;
+}
+
+#msg-header-left {
+    display     : flex;
+    align-items : center;
+    gap         : 10px;
+}
+
+#msg-title {
+    font-family : 'Outfit', sans-serif;
+    font-size   : 1.2rem;
+    font-weight : 700;
+    color       : #ffffff;
+    margin      : 0;
+}
+
+#msg-count {
+    background    : rgba(255, 255, 255, 0.08);
+    color         : #888;
+    font-family   : 'Outfit', sans-serif;
+    font-size     : 0.75rem;
+    font-weight   : 600;
+    padding       : 2px 8px;
+    border-radius : 20px;
+}
+
+#msg-header-right {
+    display     : flex;
+    align-items : center;
+    gap         : 8px;
+}
+
+#msg-select-all {
+    font-family   : 'Outfit', sans-serif;
+    font-size     : 0.78rem;
+    font-weight   : 600;
+    color         : #888;
+    background    : transparent;
+    border        : 1px solid rgba(255, 255, 255, 0.12);
+    border-radius : 6px;
+    padding       : 5px 12px;
+    cursor        : pointer;
+    transition    : color 0.2s, border-color 0.2s;
+}
+#msg-select-all:hover {
+    color         : #fff;
+    border-color  : rgba(255, 255, 255, 0.3);
+}
+
+#msg-bulk-delete {
+    display       : flex;
+    align-items   : center;
+    gap           : 6px;
+    font-family   : 'Outfit', sans-serif;
+    font-size     : 0.78rem;
+    font-weight   : 600;
+    color         : #ff6b6b;
+    background    : rgba(255, 107, 107, 0.08);
+    border        : 1px solid rgba(255, 107, 107, 0.25);
+    border-radius : 6px;
+    padding       : 5px 12px;
+    cursor        : pointer;
+    transition    : background 0.2s;
+}
+#msg-bulk-delete:hover { background: rgba(255, 107, 107, 0.15); }
+
+#msg-close {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    width           : 32px;
+    height          : 32px;
+    background      : transparent;
+    border          : 1px solid rgba(255, 255, 255, 0.12);
+    border-radius   : 8px;
+    color           : #888;
+    cursor          : pointer;
+    transition      : color 0.2s, border-color 0.2s;
+}
+#msg-close:hover {
+    color        : #fff;
+    border-color : rgba(255, 255, 255, 0.3);
+}
+
+/* ── body ── */
+#msg-body {
+    padding        : 12px;
+    display        : flex;
+    flex-direction : column;
+    gap            : 8px;
+}
+
+#msg-loading {
+    display         : flex;
+    justify-content : center;
+    padding         : 60px 0;
+}
+
+#msg-spinner {
+    width         : 28px;
+    height        : 28px;
+    border        : 2px solid rgba(255, 255, 255, 0.1);
+    border-top    : 2px solid #ffffff;
+    border-radius : 50%;
+    animation     : msg-spin 0.7s linear infinite;
+}
+@keyframes msg-spin { to { transform: rotate(360deg); } }
+
+#msg-empty {
+    display         : flex;
+    flex-direction  : column;
+    align-items     : center;
+    justify-content : center;
+    gap             : 12px;
+    padding         : 60px 0;
+    color           : #444;
+}
+#msg-empty p {
+    font-family : 'Outfit', sans-serif;
+    font-size   : 0.9rem;
+}
+
+/* ── card ── */
+.msg-card {
+    background    : #1a1a1a;
+    border        : 1px solid rgba(255, 255, 255, 0.07);
+    border-radius : 10px;
+    overflow      : hidden;
+    transition    : border-color 0.2s;
+}
+.msg-card:hover { border-color: rgba(255, 255, 255, 0.14); }
+
+.msg-card--checked {
+    border-color : rgba(100, 200, 100, 0.2);
+    background   : rgba(100, 200, 100, 0.03);
+}
+
+.msg-card--selected {
+    border-color : rgba(200, 169, 110, 0.35);
+    background   : rgba(200, 169, 110, 0.04);
+}
+
+.msg-card-top {
+    display     : flex;
+    align-items : center;
+    gap         : 12px;
+    padding     : 14px 16px;
+    cursor      : pointer;
+    user-select : none;
+}
+
+.msg-checkbox {
+    width        : 15px;
+    height       : 15px;
+    accent-color : #c8a96e;
+    flex-shrink  : 0;
+    cursor       : pointer;
+}
+
+.msg-card-info {
+    flex           : 1;
+    display        : flex;
+    flex-direction : column;
+    gap            : 3px;
+    min-width      : 0;
+}
+
+.msg-card-name {
+    font-family   : 'Outfit', sans-serif;
+    font-size     : 0.92rem;
+    font-weight   : 600;
+    color         : #ffffff;
+    white-space   : nowrap;
+    overflow      : hidden;
+    text-overflow : ellipsis;
+}
+
+.msg-card-meta {
+    font-family : 'Outfit', sans-serif;
+    font-size   : 0.75rem;
+    color       : #666;
+}
+
+.msg-card-actions {
+    display     : flex;
+    align-items : center;
+    gap         : 6px;
+    flex-shrink : 0;
+}
+
+.msg-check-btn,
+.msg-del-btn {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    width           : 28px;
+    height          : 28px;
+    border-radius   : 6px;
+    border          : 1px solid rgba(255, 255, 255, 0.10);
+    background      : transparent;
+    cursor          : pointer;
+    transition      : background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.msg-check-btn { color: #555; }
+.msg-check-btn:hover  { background: rgba(100,200,100,0.10); border-color: rgba(100,200,100,0.30); color: #6dc96d; }
+.msg-check-btn.active { background: rgba(100,200,100,0.12); border-color: rgba(100,200,100,0.40); color: #6dc96d; }
+
+.msg-del-btn { color: #555; }
+.msg-del-btn:hover { background: rgba(255,107,107,0.10); border-color: rgba(255,107,107,0.30); color: #ff6b6b; }
+
+.msg-chevron {
+    color       : #444;
+    transition  : transform 0.22s ease, color 0.2s;
+    flex-shrink : 0;
+}
+.msg-chevron.open { transform: rotate(180deg); color: #888; }
+
+/* ── expanded details ── */
+.msg-card-details {
+    border-top : 1px solid rgba(255, 255, 255, 0.06);
+    padding    : 14px 16px 16px;
+}
+
+.msg-detail-grid {
+    display        : flex;
+    flex-direction : column;
+    gap            : 6px;
+}
+
+.msg-detail-row {
+    display         : flex;
+    justify-content : space-between;
+    align-items     : center;
+    font-family     : 'Outfit', sans-serif;
+    font-size       : 0.8rem;
+    gap             : 12px;
+}
+.msg-detail-row span:first-child {
+    color           : #555;
+    text-transform  : uppercase;
+    letter-spacing  : 0.05em;
+    font-size       : 0.72rem;
+    flex-shrink     : 0;
+}
+.msg-detail-row span:last-child {
+    color       : #ccc;
+    text-align  : right;
+    word-break  : break-word;
+}
+
+.msg-detail-divider {
+    height     : 1px;
+    background : rgba(255, 255, 255, 0.06);
+    margin     : 4px 0;
+}
+
+.msg-status-sold    { color: #6dc96d !important; font-weight: 600; }
+.msg-status-pending { color: #c8a96e !important; font-weight: 600; }
+
+/* ── responsive ── */
+@media (max-width: 500px) {
+    #msg-overlay { padding: 70px 8px 8px; }
+    #msg-page    { border-radius: 12px; }
+    #msg-header  { padding: 16px; }
+    .msg-card-top { padding: 12px; gap: 8px; }
+}

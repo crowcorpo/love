@@ -1,0 +1,604 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Syne:wght@400;500;600;700&display=swap');
+
+/* ===================== */
+/* VARIABLES             */
+/* ===================== */
+:root {
+    --sl-accent:       #c8a96e;
+    --sl-accent2:      #e8c99e;
+    --sl-text:         #f0ede8;
+    --sl-text-muted:   rgba(240, 237, 232, 0.5);
+    --sl-danger:       #c0392b;
+    --sl-danger-hover: #e74c3c;
+    --sl-glass:        rgba(255, 255, 255, 0.08);
+    --sl-glass-border: rgba(255, 255, 255, 0.14);
+    --sl-surface:      rgba(12, 10, 8, 0.95);
+    --sl-shadow:       0 24px 60px rgba(0, 0, 0, 0.55);
+    --sl-radius:       18px;
+    --sl-font-display: 'Cormorant Garamond', Georgia, serif;
+    --sl-font-body:    'Syne', sans-serif;
+}
+
+/* ===================== */
+/* BG SECTION            */
+/* full-width blurred bg */
+/* behind the slider     */
+/* ===================== */
+#sl-section {
+    position        : relative;
+    width           : 100%;
+    display         : flex;
+    justify-content : center;
+    overflow        : hidden;
+    padding         : 60px 24px;
+    box-sizing      : border-box;
+    margin-top      : var( --nav-h ); /* ✅ sits exactly below the fixed navbar */
+}
+
+/* blurred background image */
+#sl-section::before {
+    content    : '';
+    position   : absolute;
+    inset      : 0;
+    background : var( --sl-bg ) center / cover no-repeat;
+    filter     : blur( 8px );  /* ✅ much less blur — more visible */
+    transform  : scale( 1.05 );
+    z-index    : 0;
+}
+
+/* dark overlay for readability */
+#sl-section::after {
+    content    : '';
+    position   : absolute;
+    inset      : 0;
+    background : rgba( 0, 0, 0, 0.35 ); /* ✅ lighter overlay */
+    z-index    : 1;
+}
+
+/* ===================== */
+/* WRAPPER               */
+/* ===================== */
+#slwrap {
+    position        : relative;
+    z-index         : 2; /* above the bg layers */
+    margin-top      : 0; /* section handles spacing now */
+    display         : flex;
+    flex-direction  : column;
+    align-items     : center;
+    gap             : 10px;
+    font-family     : var( --sl-font-body );
+    width           : 100%;
+    box-sizing      : border-box;
+}
+
+/* ===================== */
+/* LOGIN ROW             */
+/* outside the slider    */
+/* ===================== */
+#slloginrow {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+/* Google sign in button */
+#slgooglebtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sl-font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 9px 18px 9px 12px;
+    background: #fff;
+    color: #3c3c3c;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+#slgooglebtn:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+}
+
+#slgooglebtn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* sign out button */
+#slsignout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sl-font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    background: transparent;
+    color: var(--sl-text-muted);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#slsignout:hover {
+    color: var(--sl-text);
+    border-color: rgba(255,255,255,0.35);
+    background: var(--sl-glass);
+}
+
+/* ===================== */
+/* SLIDER BOX            */
+/* ===================== */
+#slbox {
+    position      : relative;
+    width         : 480px;
+    aspect-ratio  : 4 / 3;
+    border-radius : var(--sl-radius);
+    overflow      : hidden;
+    background    : #0d0b09;
+    box-shadow: 0px 0px 15px rgb(122, 122, 122);
+    flex-shrink   : 0;
+    user-select   : none;
+    -webkit-user-select: none;
+}
+
+/* ===================== */
+/* SLIDES                */
+/* ===================== */
+#slslide {
+    position   : absolute;
+    inset      : 0;
+    transition : opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#slslide img {
+    width             : 100%;
+    height            : 100%;
+    object-fit        : cover;
+    display           : block;
+    pointer-events    : none;
+    -webkit-user-drag : none;
+}
+
+#sloverlay {
+    position   : absolute;
+    inset      : 0;
+    background : linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.0) 40%,
+        rgba(0,0,0,0.65) 100%
+    );
+}
+
+/* ===================== */
+/* ARROWS — desktop only */
+/* ===================== */
+#slarrow {
+    position                : absolute;
+    top                     : 50%;
+    transform               : translateY(-50%);
+    z-index                 : 10;
+    width                   : 36px;
+    height                  : 36px;
+    border-radius           : 50%;
+    border                  : 1px solid var(--sl-glass-border);
+    background              : var(--sl-glass);
+    backdrop-filter         : blur(12px);
+    -webkit-backdrop-filter : blur(12px);
+    color                   : var(--sl-text);
+    cursor                  : pointer;
+    display                 : flex;
+    align-items             : center;
+    justify-content         : center;
+    transition              : all 0.25s ease;
+}
+
+#slarrow.slleft  { left: 12px; }
+#slarrow.slright { right: 12px; }
+
+#slarrow:hover {
+    background   : var(--sl-accent);
+    border-color : var(--sl-accent);
+    color        : #0d0b09;
+    transform    : translateY(-50%) scale(1.08);
+    box-shadow   : 0 4px 14px rgba(200, 169, 110, 0.45);
+}
+
+/* ===================== */
+/* DOTS                  */
+/* ===================== */
+#sldots {
+    position  : absolute;
+    bottom    : 46px;
+    left      : 50%;
+    transform : translateX(-50%);
+    z-index   : 10;
+    display   : flex;
+    gap       : 6px;
+    align-items: center;
+}
+
+.sldot {
+    width         : 6px;
+    height        : 6px;
+    border-radius : 50%;
+    border        : 1px solid rgba(255,255,255,0.5);
+    background    : transparent;
+    cursor        : pointer;
+    transition    : all 0.3s ease;
+    padding       : 0;
+}
+
+.sldot.slactive {
+    background    : var(--sl-accent);
+    border-color  : var(--sl-accent);
+    width         : 20px;
+    border-radius : 3px;
+}
+
+/* ===================== */
+/* COUNTER               */
+/* ===================== */
+#slcounter {
+    position      : absolute;
+    bottom        : 48px;
+    right         : 14px;
+    z-index       : 10;
+    font-family   : var(--sl-font-display);
+    font-size     : 0.78rem;
+    font-weight   : 300;
+    color         : var(--sl-text-muted);
+    letter-spacing: 0.08em;
+}
+
+/* ===================== */
+/* ADMIN TOOLBAR         */
+/* ===================== */
+#sladminbar {
+    position                : absolute;
+    bottom                  : 0;
+    left                    : 0;
+    right                   : 0;
+    z-index                 : 10;
+    display                 : flex;
+    align-items             : center;
+    gap                     : 6px;
+    padding                 : 8px 10px;
+    background              : rgba(8, 6, 4, 0.78);
+    backdrop-filter         : blur(14px);
+    -webkit-backdrop-filter : blur(14px);
+    border-top              : 1px solid rgba(255,255,255,0.07);
+}
+
+#slup-input , #sledit-input {
+    display: none;
+}
+
+#slupbtn , #sleditbtn , #sldelbtn {
+    display        : flex;
+    align-items    : center;
+    gap            : 5px;
+    font-family    : var(--sl-font-body);
+    font-size      : 0.68rem;
+    font-weight    : 600;
+    letter-spacing : 0.09em;
+    text-transform : uppercase;
+    padding        : 6px 13px;
+    border         : none;
+    border-radius  : 50px;
+    cursor         : pointer;
+    transition     : all 0.22s ease;
+    white-space    : nowrap;
+}
+
+#slupbtn {
+    background : rgba(200, 169, 110, 0.18);
+    color      : var(--sl-accent2);
+    border     : 1px solid rgba(200, 169, 110, 0.25);
+}
+
+#slupbtn:hover {
+    background   : var(--sl-accent);
+    color        : #0d0b09;
+    border-color : var(--sl-accent);
+    box-shadow   : 0 4px 12px rgba(200, 169, 110, 0.4);
+}
+
+#sleditbtn {
+    background : rgba(255, 255, 255, 0.07);
+    color      : var(--sl-text-muted);
+    border     : 1px solid rgba(255,255,255,0.1);
+}
+
+#sleditbtn:hover {
+    background   : rgba(255,255,255,0.14);
+    color        : var(--sl-text);
+    border-color : rgba(255,255,255,0.22);
+}
+
+#sldelbtn {
+    background  : rgba(192, 57, 43, 0.18);
+    color       : #e88;
+    border      : 1px solid rgba(192, 57, 43, 0.25);
+    margin-left : auto;
+}
+
+#sldelbtn:hover {
+    background   : var(--sl-danger);
+    color        : white;
+    border-color : var(--sl-danger);
+    box-shadow   : 0 4px 12px rgba(192, 57, 43, 0.45);
+}
+
+#slupbtn:active , #sleditbtn:active , #sldelbtn:active {
+    transform  : scale(0.96);
+    box-shadow : none;
+}
+
+/* ===================== */
+/* LOADER                */
+/* ===================== */
+#slloader {
+    position   : absolute;
+    inset      : 0;
+    display    : flex;
+    align-items: center;
+    justify-content: center;
+    background : #0d0b09;
+    z-index    : 5;
+}
+
+#slspinner {
+    width         : 32px;
+    height        : 32px;
+    border        : 2px solid rgba(255,255,255,0.1);
+    border-top-color: var(--sl-accent);
+    border-radius : 50%;
+    animation     : slspin 0.85s linear infinite;
+}
+
+@keyframes slspin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===================== */
+/* EMPTY STATE           */
+/* ===================== */
+#slempty {
+    position        : absolute;
+    inset           : 0;
+    display         : flex;
+    flex-direction  : column;
+    align-items     : center;
+    justify-content : center;
+    gap             : 8px;
+    z-index         : 5;
+}
+
+#slempty p {
+    font-family    : var(--sl-font-display);
+    font-size      : 1.4rem;
+    font-weight    : 300;
+    letter-spacing : 0.18em;
+    color          : rgba(255,255,255,0.25);
+    text-transform : uppercase;
+}
+
+#slempty span {
+    font-size      : 0.72rem;
+    letter-spacing : 0.08em;
+    color          : rgba(255,255,255,0.15);
+}
+
+/* ===================== */
+/* MODALS                */
+/* ===================== */
+#slmodalbg {
+    position                : fixed;
+    inset                   : 0;
+    z-index                 : 999;
+    display                 : flex;
+    align-items             : center;
+    justify-content         : center;
+    background              : rgba(0,0,0,0.65);
+    backdrop-filter         : blur(16px);
+    -webkit-backdrop-filter : blur(16px);
+    padding                 : 20px;
+    animation               : slfadein 0.2s ease;
+}
+
+@keyframes slfadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#slmodal {
+    background     : var(--sl-surface);
+    border         : 1px solid var(--sl-glass-border);
+    border-radius  : 20px;
+    padding        : 36px 28px 28px;
+    width          : 100%;
+    max-width      : 380px;
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    gap            : 10px;
+    box-shadow     : var(--sl-shadow);
+    animation      : slmodalin 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slmodalin {
+    from { opacity: 0; transform: scale(0.88) translateY(16px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#slmodalicon {
+    font-size     : 2rem;
+    line-height   : 1;
+    margin-bottom : 4px;
+}
+
+#slmodaltext {
+    font-family    : var(--sl-font-display);
+    font-size      : 1.35rem;
+    font-weight    : 600;
+    color          : var(--sl-text);
+    text-align     : center;
+    letter-spacing : 0.03em;
+}
+
+#slmodalsub {
+    font-size      : 0.75rem;
+    color          : var(--sl-text-muted);
+    text-align     : center;
+    letter-spacing : 0.04em;
+    margin-bottom  : 6px;
+}
+
+#slchoose {
+    font-family    : var(--sl-font-body);
+    font-size      : 0.72rem;
+    font-weight    : 600;
+    letter-spacing : 0.08em;
+    text-transform : uppercase;
+    padding        : 9px 22px;
+    background     : var(--sl-glass);
+    color          : var(--sl-accent2);
+    border         : 1px solid rgba(200, 169, 110, 0.28);
+    border-radius  : 50px;
+    cursor         : pointer;
+    transition     : all 0.22s ease;
+    max-width      : 240px;
+    overflow       : hidden;
+    text-overflow  : ellipsis;
+    white-space    : nowrap;
+}
+
+#slchoose:hover {
+    background   : rgba(200, 169, 110, 0.14);
+    border-color : var(--sl-accent);
+}
+
+#slmodalbtns {
+    display    : flex;
+    gap        : 10px;
+    width      : 100%;
+    margin-top : 8px;
+}
+
+#slcancel , #slconfirm {
+    flex           : 1;
+    font-family    : var(--sl-font-body);
+    font-size      : 0.75rem;
+    font-weight    : 600;
+    letter-spacing : 0.08em;
+    text-transform : uppercase;
+    padding        : 11px 14px;
+    border-radius  : 50px;
+    cursor         : pointer;
+    transition     : all 0.22s ease;
+    border         : none;
+}
+
+#slcancel {
+    background : transparent;
+    color      : var(--sl-text-muted);
+    border     : 1px solid var(--sl-glass-border);
+}
+
+#slcancel:hover {
+    background   : var(--sl-glass);
+    color        : var(--sl-text);
+    border-color : rgba(255,255,255,0.25);
+}
+
+#slconfirm {
+    background : var(--sl-danger);
+    color      : white;
+}
+
+#slconfirm:hover {
+    background : var(--sl-danger-hover);
+    transform  : translateY(-2px);
+    box-shadow : 0 6px 18px rgba(192, 57, 43, 0.4);
+}
+
+#slcancel:active , #slconfirm:active {
+    transform  : translateY(0) !important;
+    box-shadow : none !important;
+}
+
+/* ===================== */
+/* RESPONSIVE            */
+/* ===================== */
+
+@media (min-width: 1200px) {
+    #slbox { width: 666px; height: 400px; }
+}
+
+@media (max-width: 768px) {
+
+    #sl-section {
+        padding    : 40px 16px;
+        margin-top : var( --nav-h );
+    }
+
+    #slbox {
+        width         : 100%;
+        border-radius : 14px;
+    }
+
+    #slwrap {
+        width : 100%;
+    }
+
+    #slarrow { display: none; }
+
+    #sldots { bottom: 44px; }
+
+    #slupbtn , #sleditbtn , #sldelbtn {
+        font-size : 0.62rem;
+        padding   : 6px 11px;
+    }
+
+    #sladminbar {
+        gap     : 5px;
+        padding : 7px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #sl-section { padding: 30px 12px; }
+
+    #slupbtn span , #sleditbtn span , #sldelbtn span {
+        display: none;
+    }
+
+    #slupbtn , #sleditbtn , #sldelbtn {
+        padding: 7px 11px;
+    }
+
+    #slgooglebtn {
+        font-size : 0.68rem;
+        padding   : 8px 14px 8px 10px;
+    }
+
+    #slsignout {
+        font-size : 0.65rem;
+        padding   : 6px 13px;
+    }
+
+    #slcounter { display: none; }
+}

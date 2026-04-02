@@ -313,14 +313,15 @@
    ════════════════════════════════════════════════════ */
 
 /* Portrait mobile */
-@media (max-width: 768px) and (orientation: portrait) {
+/* Mobile */
+@media (max-width: 768px) {
     .navbar__links        { display: none; }
     .navbar__right-mobile { display: flex; }
     .navbar__hamburger    { display: flex; }
 }
 
-/* Landscape mobile */
-@media (max-width: 900px) and (orientation: landscape) {
+/* Tablet / small laptop */
+@media (min-width: 769px) and (max-width: 900px) {
     .navbar__right-mobile { display: flex; }
     .navbar__hamburger    { display: flex; }
     .navbar__links        { display: flex; }
@@ -329,8 +330,8 @@
     .navbar__links li { font-size: 0.82rem; padding: 5px 12px; }
 }
 
-/* Desktop landscape */
-@media (min-width: 901px) and (orientation: landscape) {
+/* Desktop */
+@media (min-width: 901px) {
     .navbar__hamburger    { display: none; }
     .navbar__right-mobile { display: none; }
     .navbar__links        { display: flex; }
@@ -339,7 +340,6 @@
     .navbar__backdrop     { display: none !important; }
     .navbar__inner        { padding: 0 50px; }
 }
-
 /* Desktop portrait */
 @media (min-width: 769px) and (orientation: portrait) {
     .navbar__hamburger    { display: none; }

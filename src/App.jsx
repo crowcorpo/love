@@ -1,13 +1,13 @@
 
-import Love from "./love.jsx";
-import  "./love.css";
+import Medical from "./medical.jsx";
+import  "./medical.css";
 
 function App() {
 
 
     return(
         <div>
-            <Love/>
+            <Medical/>
         </div>
     );
 }
